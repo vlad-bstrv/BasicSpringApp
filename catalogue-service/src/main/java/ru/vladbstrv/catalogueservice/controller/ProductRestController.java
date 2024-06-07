@@ -2,6 +2,9 @@ package ru.vladbstrv.catalogueservice.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -10,6 +13,7 @@ import ru.vladbstrv.catalogueservice.controller.payload.UpdateProductPayload;
 import ru.vladbstrv.catalogueservice.entity.Product;
 import ru.vladbstrv.catalogueservice.service.ProductService;
 
+import java.util.Locale;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -18,6 +22,7 @@ import java.util.NoSuchElementException;
 public class ProductRestController {
 
     private final ProductService productService;
+    private final MessageSource messageSource;
 
     @ModelAttribute("product")
     public Product getProduct(@PathVariable("productId") int productId) {
@@ -52,5 +57,13 @@ public class ProductRestController {
     public ResponseEntity<?> deleteProduct(@PathVariable("productId") int productId) {
         this.productService.deleteProduct(productId);
         return ResponseEntity.noContent().build();
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<ProblemDetail> handleNotFoundException(NoSuchElementException e, Locale locale) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND,
+                        this.messageSource.getMessage(e.getMessage(), new Object[0],
+                                e.getMessage(), locale)));
     }
 }
