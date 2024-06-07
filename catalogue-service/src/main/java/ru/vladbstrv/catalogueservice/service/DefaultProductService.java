@@ -1,9 +1,9 @@
-package ru.vladbstrv.basicspringapp.service;
+package ru.vladbstrv.catalogueservice.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.vladbstrv.basicspringapp.entity.Product;
-import ru.vladbstrv.basicspringapp.repository.ProductRepository;
+import ru.vladbstrv.catalogueservice.entity.Product;
+import ru.vladbstrv.catalogueservice.repository.ProductRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;

@@ -1,7 +1,7 @@
-package ru.vladbstrv.basicspringapp.repository;
+package ru.vladbstrv.catalogueservice.repository;
 
 import org.springframework.stereotype.Repository;
-import ru.vladbstrv.basicspringapp.entity.Product;
+import ru.vladbstrv.catalogueservice.entity.Product;
 
 import java.util.*;
 

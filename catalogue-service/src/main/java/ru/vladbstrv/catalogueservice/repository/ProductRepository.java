@@ -1,6 +1,7 @@
-package ru.vladbstrv.basicspringapp.repository;
+package ru.vladbstrv.catalogueservice.repository;
 
-import ru.vladbstrv.basicspringapp.entity.Product;
+
+import ru.vladbstrv.catalogueservice.entity.Product;
 
 import java.util.List;
 import java.util.Optional;

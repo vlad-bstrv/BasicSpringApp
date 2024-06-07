@@ -1,4 +1,4 @@
-package ru.vladbstrv.basicspringapp.entity;
+package ru.vladbstrv.catalogueservice.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
