@@ -1,15 +1,15 @@
 package ru.vladbstrv.managerapp.controller;
 
-import jakarta.validation.Valid;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import ru.vladbstrv.managerapp.client.BadRequestException;
 import ru.vladbstrv.managerapp.client.ProductsRestClient;
 import ru.vladbstrv.managerapp.controller.payload.NewProductPayload;
 import ru.vladbstrv.managerapp.entity.Product;
@@ -33,21 +33,17 @@ public class ProductsController {
     }
 
     @PostMapping("create")
-    public String createProduct(
-            @Valid NewProductPayload payload,
-            BindingResult bindingResult,
-            Model model
-    ) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("payload", payload);
-            model.addAttribute("errors", bindingResult.getAllErrors().stream()
-                    .map(ObjectError::getDefaultMessage)
-                    .toList());
-            return "catalogue/products/new_product";
-        } else {
+    public String createProduct(NewProductPayload payload,
+                                Model model,
+                                HttpServletResponse response) {
+        try {
             Product product = this.productsRestClient.createProduct(payload.title(), payload.details());
             return "redirect:/catalogue/products/%d".formatted(product.id());
+        } catch (BadRequestException exception) {
+            response.setStatus(HttpStatus.BAD_REQUEST.value());
+            model.addAttribute("payload", payload);
+            model.addAttribute("errors", exception.getErrors());
+            return "catalogue/products/new_product";
         }
     }
-
 }
