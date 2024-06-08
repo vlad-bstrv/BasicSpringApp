@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import ru.vladbstrv.managerapp.client.ProductsRestClient;
+import ru.vladbstrv.managerapp.controller.payload.UpdateProductPayload;
 import ru.vladbstrv.managerapp.entity.Product;
 
 import java.util.Locale;
@@ -20,13 +22,13 @@ import java.util.NoSuchElementException;
 @RequestMapping("catalogue/products/{productId:\\d+}")
 public class ProductController {
 
-    private final ProductService productService;
+    private final ProductsRestClient productsRestClient;
 
     private final MessageSource messageSource;
 
     @ModelAttribute("product")
     public Product product(@PathVariable("productId") int productId) {
-        return this.productService.findProduct(productId).orElseThrow(
+        return this.productsRestClient.findProduct(productId).orElseThrow(
                 () -> new NoSuchElementException("catalogue.errors.product.not_found")
         );
     }
@@ -55,14 +57,14 @@ public class ProductController {
                     .toList());
             return "catalogue/products/edit";
         } else {
-            this.productService.updateProduct(product.getId(), payload.title(), payload.details());
-            return "redirect:/catalogue/products/%d".formatted(product.getId());
+            this.productsRestClient.updateProduct(product.id(), payload.title(), payload.details());
+            return "redirect:/catalogue/products/%d".formatted(product.id());
         }
     }
 
     @PostMapping("delete")
     public String deleteProduct(@ModelAttribute("product") Product product) {
-        this.productService.deleteProduct(product.getId());
+        this.productsRestClient.deleteProduct(product.id());
         return "redirect:/catalogue/products/list";
     }
 
