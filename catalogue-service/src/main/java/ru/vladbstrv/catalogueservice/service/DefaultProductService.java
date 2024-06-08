@@ -36,6 +36,8 @@ public class DefaultProductService implements ProductService {
                 .ifPresentOrElse(product -> {
                             product.setTitle(title);
                             product.setDetails(details);
+
+                            productRepository.save(product);
                         }, () -> {
                             throw new NoSuchElementException();
                         }
