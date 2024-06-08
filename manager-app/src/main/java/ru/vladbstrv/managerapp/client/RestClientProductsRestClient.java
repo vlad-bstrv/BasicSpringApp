@@ -32,7 +32,7 @@ public class RestClientProductsRestClient implements ProductsRestClient {
     public List<Product> findAllProducts() {
         return this.restClient
                 .get()
-                .uri("/catalogue-api/products/")
+                .uri("/catalogue-api/products")
                 .retrieve()
                 .body(PRODUCTS_TYPE_REFERENCE);
     }
