@@ -26,5 +26,4 @@ selmag:
   services:
     catalogue:
       uri: http://localhost:8081
-      username: catalogue_service_user
-      password: password
+      registration-id: keycloak
