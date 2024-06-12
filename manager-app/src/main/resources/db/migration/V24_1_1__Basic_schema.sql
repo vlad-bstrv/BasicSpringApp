@@ -10,7 +10,7 @@ create table user_management.t_user
 create table user_management.t_authority
 (
     id          serial primary key,
-    c_authority varchar not null check ( length(trim(c_username)) > 0 ) unique,
+    c_authority varchar not null check ( length(trim(c_authority)) > 0 ) unique
 );
 
 create table user_management.t_user_authority

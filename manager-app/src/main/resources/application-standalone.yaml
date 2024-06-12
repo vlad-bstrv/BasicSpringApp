@@ -1,6 +1,10 @@
 spring:
   application:
     name: manager-app
+  datasource:
+    url: jdbc:postgresql://localhost:5433/manager
+    username: manager
+    password: manager
 
 selmag:
   services:
